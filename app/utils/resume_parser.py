@@ -34,6 +34,7 @@ def text_extracter(UserFile):
     # Removing punctuations and lowercase 
     text= re.sub(r'[^\w\s]', '', text)
     text= text.lower()
+    text= text.replace('\xa0', ' ')
 
     # Clean text with the stopwords
     return text
