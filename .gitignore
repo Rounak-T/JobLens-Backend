@@ -5,3 +5,7 @@ __pycache__/
 *.pkl
 *.h5
 .DS_Store
+data/tfidf_matrix.npy
+data/tfidf_vectorizer.pkl
+data/CategoryLabels.csv
+data/cleaned_resumes.csv

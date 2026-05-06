@@ -10,7 +10,7 @@ Functions:
 import pdfplumber
 from docx import Document
 from fastapi import UploadFile, File, HTTPException
-import re
+from app.utils.text_cleaner import text_cleaner
 
 def text_extracter(UserFile):
 
@@ -31,10 +31,5 @@ def text_extracter(UserFile):
             detail="Unsupported file format. Only PDF and DOCX files are allowed."
         )
 
-    # Removing punctuations and lowercase 
-    text= re.sub(r'[^\w\s]', '', text)
-    text= text.lower()
-    text= text.replace('\xa0', ' ')
-
-    # Clean text with the stopwords
-    return text
+    # Removing punctuations, lowercase and returning text 
+    return text_cleaner(text)
