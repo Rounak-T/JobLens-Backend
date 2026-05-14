@@ -3,15 +3,31 @@ import os
 from dotenv import load_dotenv
 from app.utils.role_mapper import role_to_jobs
 from app.utils.similarity import cosine_cal
+from concurrent.futures import ThreadPoolExecutor
 
 load_dotenv()
 
 api_key = os.getenv("JSEARCH_API_KEY")
 
-headers = {
+def fetch_jobs(job_title):
+
+    headers = {
     "X-RapidAPI-Key": api_key,
     "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
-}
+    }
+    params = {
+            "query": job_title + " in India",
+            "num_pages": 1,
+            "page": 1
+    }
+    response = requests.get(
+            "https://jsearch.p.rapidapi.com/search",
+            headers=headers,
+            params=params
+    )
+    data= response.json()['data']
+
+    return data
 
 def recommend_job(resume_text, predicted_role):
 
@@ -19,25 +35,15 @@ def recommend_job(resume_text, predicted_role):
     seen_url= set()
     all_jobs= []
 
-    for job_title in relevant_jobs:
+    with ThreadPoolExecutor() as executor:
+        data= list(executor.map(fetch_jobs, relevant_jobs))
 
-        params = {
-            "query": job_title,
-            "num_pages": 1,
-            "page": 1
-        }
-        response = requests.get(
-            "https://jsearch.p.rapidapi.com/search",
-            headers=headers,
-            params=params
-        )
+    data = [item for sublist in data for item in sublist]
 
-        data= response.json()['data']
-
-        for job in data:
-            if job['job_apply_link'] not in seen_url:
-                seen_url.add(job['job_apply_link']) 
-                all_jobs.append(job)
+    for job in data:
+        if job['job_apply_link'] not in seen_url:
+            seen_url.add(job['job_apply_link']) 
+            all_jobs.append(job)
 
     ranked_jobs = []
     for job in all_jobs:
@@ -45,10 +51,8 @@ def recommend_job(resume_text, predicted_role):
 
         temp= {
             'title': job['job_title'],
-            'description': job['job_description'],
-            'location': job['job_location'],
-            'apply_link': job['job_apply_link'],
-            'match_score': score
+            'match_score': score,
+            'apply_link': job['job_apply_link']
         }
 
         ranked_jobs.append(temp)
