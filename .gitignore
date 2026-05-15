@@ -14,10 +14,6 @@ __pycache__/
 *.h5
 *.npy
 
-# Data files (generated)
-data/CategoryLabels.csv
-data/cleaned_resumes.csv
-
 # OS files
 .DS_Store
 Thumbs.db
