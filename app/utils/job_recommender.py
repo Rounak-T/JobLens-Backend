@@ -10,7 +10,7 @@ load_dotenv()
 api_key = os.getenv("JSEARCH_API_KEY")
 
 def fetch_jobs(job_title):
-
+    print(f"API Key loaded: {api_key[:10] if api_key else 'NOT FOUND'}")
     headers = {
     "X-RapidAPI-Key": api_key,
     "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
@@ -25,9 +25,9 @@ def fetch_jobs(job_title):
             headers=headers,
             params=params
     )
-    data= response.json()['data']
-
-    return data
+    result = response.json()
+    print(f"JSearch response keys: {result.keys()}")
+    return result.get('data', [])
 
 def recommend_job(resume_text, predicted_role):
 
