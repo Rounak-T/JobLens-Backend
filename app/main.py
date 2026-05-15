@@ -9,7 +9,11 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-origins= ["http://localhost:8080"]
+origins= [
+    "http://localhost:8080",
+    "http://localhost:5173",  # Vite default port
+    "https://joblens.vercel.app",  # add your actual Vercel URL later
+]
 
 app= FastAPI()
 app.add_middleware(
@@ -84,3 +88,8 @@ def PredictRole(UserFile: UploadFile= File(...)):
             status_code= 500,
             detail= str(e)
         )
+    
+if __name__ == "__main__":
+    import uvicorn
+    import os
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
