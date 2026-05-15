@@ -1,7 +1,7 @@
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
 
-with open('data/tfidf_vectorizer.pkl', 'rb') as f:
+with open('app/models/tfidf_vectorizer.pkl', 'rb') as f:
     vectorizer= pickle.load(f)
 
 def cosine_cal(resume_text, jd_text):

@@ -1,12 +1,3 @@
-'''
-Functions:
-- Accepts file
-- Detects if it's a PDF or DOCX
-- Extract the text
-- Clean the text
-- Return text as string
-'''
-
 import pdfplumber
 from docx import Document
 from fastapi import UploadFile, File, HTTPException

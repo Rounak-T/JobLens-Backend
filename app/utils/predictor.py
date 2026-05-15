@@ -1,12 +1,12 @@
 import pickle
 
-with open('data/svm_model.pkl', 'rb')as f:
+with open('app/models/svm_model.pkl', 'rb')as f:
     svm_model= pickle.load(f)
 
-with open('data/Categories_encoder.pkl', 'rb')as f:
+with open('app/models/label_encoder.pkl', 'rb')as f:
     encoder= pickle.load(f)
 
-with open('data/tfidf_vectorizer.pkl', 'rb') as f:
+with open('app/models/tfidf_vectorizer.pkl', 'rb') as f:
     vectorizer= pickle.load(f)
 
 def predict_role(resume_text):

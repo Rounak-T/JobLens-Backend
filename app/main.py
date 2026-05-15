@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-origins= ["http://localhost:3000", "http://localhost:5173"]
+origins= ["http://localhost:8080"]
 
 app= FastAPI()
 app.add_middleware(
