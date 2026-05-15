@@ -1,4 +1,4 @@
-# JobLens — AI Resume Analyzer (Backend)
+# JobLens (Backend)
 
 > Your resume, through a smarter lens.
 
